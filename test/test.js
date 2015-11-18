@@ -10,13 +10,13 @@ describe('Parser', function () {
     p.addCommand("test");
     expect(p.match("!test")).to.deep.equal({command: "test", args: {}});
   });
-  it("should match commands with one argument", function() {
+  it("should match commands with one argument", function () {
     var p = new parser.Parser();
     p.addCommand("test").addArgument(parser.argument.word("word"));
     expect(p.match("!test")).to.be.null;
     expect(p.match("!test hello")).to.deep.equal({command: "test", args: {word: "hello"}})
   });
-  it("should match commands with multiple arguments", function() {
+  it("should match commands with multiple arguments", function () {
     var p = new parser.Parser();
     p.addCommand("test");
     p["test"].addArgument(parser.argument.word("word"));
@@ -35,7 +35,7 @@ describe('Parser', function () {
       }
     });
   });
-  it("should not match omitted optional arguments", function() {
+  it("should not match omitted optional arguments", function () {
     var p = new parser.Parser();
     p.addCommand("test");
     p["test"].addArgument(parser.argument.int("int")).setRequired(false);
@@ -61,5 +61,29 @@ describe('Parser', function () {
         int: "10"
       }
     });
+  });
+  it("should create commands from a command array", function () {
+    var p = new parser.Parser({
+      test: {
+        int: ["int"],
+        word: ["word"],
+        list: ["list?", "one", "two", "three"],
+        all: ["all"]
+      }
+    });
+    expect(p.match("!test")).to.be.null;
+    expect(p.match("!test 1")).to.be.null;
+    expect(p.match("!test 1 hello")).to.be.null;
+    expect(p.match("!test 1 hello one")).to.be.null;
+    expect(p.match("!test 1 hello one other stuff")).to.deep.equal({
+      command: "test",
+      args: {
+        word: "hello",
+        int: "1",
+        list: "one",
+        all: "other stuff"
+      }
+    });
+
   });
 });
