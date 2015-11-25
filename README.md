@@ -17,7 +17,7 @@ p.addCommand("test2");
 p.addCommand("test3");
 
 //Add arguments
-p["test2"].addArgument(parser.argument.int("integer"));
+p["test2"].addArgument(parser.argument.int("integer")); //Add an int type argument named 'integer'
 p["test2"].addArgument("testarg"); // Defaults to the 'word' type argument - gets everything up to a space
 
 p["test3"].addArgument(parser.argument.list("lst", "one", "two", "three");
