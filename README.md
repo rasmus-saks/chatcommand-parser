@@ -24,6 +24,17 @@ p["test3"].addArgument(parser.argument.list("lst", "one", "two", "three");
 p["test3"].addArgument(parser.argument.all("all")).setRequired(false);
 
 //Reference the arguments with p["test3"]["lst"] for example
+
+//Create commands with an object
+
+var p2 = new parser.Parser({
+  test: { // !test command
+    integer: ["int"], //int type argument named 'integer'
+    wordarg: ["word"],
+    listarg: ["list?", "one", "two", "three"], //Optional list type argument
+    allarg: ["all"]
+  }
+});
 ```
 ## Parsing commands
 ```javascript
