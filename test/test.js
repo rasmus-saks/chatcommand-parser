@@ -86,4 +86,15 @@ describe('Parser', function () {
     });
 
   });
+  it("should create a usage string", function() {
+    var p = new parser.Parser({
+      test: {
+        int: ["int"],
+        word: ["word"],
+        list: ["list?", "one", "two", "three"],
+        all: ["all"]
+      }
+    });
+    expect(p["test"].getUsage()).to.equal("!test [int] [word] (list) [all]");
+  });
 });
